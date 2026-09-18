@@ -2,7 +2,7 @@
 #source: https://polk.wateratlas.usf.edu/waterbodies/lakes/160723/
 
 #read in dataset
-lakeannie <- read.csv("USF Water Atlas Lake Annie.csv")
+lakeannie <- read.csv("https://github.com/MorganPMathews/Biometry/raw/refs/heads/main/USF_Water_Atlas_Lake_Annie.csv")
 #identify class of dataset
 class(lakeannie) #data.frame
 #variables of interest and classes
@@ -25,7 +25,7 @@ mutate(Characteristic = recode(Characteristic,
 #make sure result value is numeric
 mutate(ResultValue = as.numeric(ResultValue)) |> 
 #extract year from date column and make it a variable
-mutate(Year = year(as.Date(SampleDate))) |> 
+mutate(Year = as.numeric(str_sub(SampleDate, start = -4))) |>
 #select necessary columns
 select(StationID, 
        SampleDate,
