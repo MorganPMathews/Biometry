@@ -151,7 +151,7 @@ tsi_color_pH |>
   scale_fill_manual(values = c("darkblue")) + 
   labs(title = "Distribution of Lake Annie True Color",
        subtitle = "1986-2026",
-       x = "True Color",
+       x = "True Color (PCU)",
        y = "Count (Frequency)") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
@@ -178,14 +178,14 @@ tsi_color_pH |>
   stat_function(
     fun = dnorm, 
     args = list(mean = log_mean, sd = log_sd),
-    color = "darkblue", 
+    color = "lightblue", 
     linewidth = 1.2
   ) +
   #color and labels
-  scale_fill_manual(values = c("lightblue")) + 
+  scale_fill_manual(values = c("darkblue")) + 
   labs(title = "Log-Transformed Distribution of Lake Annie True Color",
        subtitle = "1986-2026",
-       x = "Log10 True Color",
+       x = "Log10 True Color (PCU)",
        y = "Count (Frequency)") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
@@ -195,6 +195,9 @@ tsi_color_pH |>
         plot.subtitle = element_text(hjust = 0.5, color = "darkgray"))
 
 ##pH
+#calculate mean and sd
+ph_mean <- mean(tsi_color_pH$`pH`, na.rm = TRUE)
+ph_sd   <- sd(tsi_color_pH$`pH`, na.rm = TRUE)
 #histogram for pH
 tsi_color_pH |> 
   pivot_longer(cols = c(`pH`), 
@@ -202,9 +205,16 @@ tsi_color_pH |>
                values_to = "Value") |> 
 #build histogram
   ggplot(aes(x = Value, fill = Parameter)) +
-  geom_histogram(na.rm = TRUE, bins = 20, color = "white", alpha = 0.8) +
+  geom_histogram(aes(y = after_stat(density)), na.rm = TRUE, bins = 20, color = "white", alpha = 0.8) +
+#add curve
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = ph_mean, sd = ph_sd),
+    color = "darkblue", 
+    linewidth = 1.2
+  ) +
 #color and labels
-  scale_fill_manual(values = c("lightblue")) + 
+  scale_fill_manual(values = c("steelblue")) + 
   labs(title = "Distribution of Lake Annie pH",
        subtitle = "1986-2026",
        x = "pH",
@@ -236,4 +246,4 @@ median(tsi_color_pH$pH, na.rm = TRUE) #median = 7.2975
 ##distributions
 #Trophic State Index follows a lognormal distribution. The mean (43.67) is greater than the median (41). These values as well as the histogram show that the distribution is right-skewed. After a log10 transformation, the log-transformed Trophic State Index fits a normal distribution as demonstrated by the overlaid curve.
 #True Color follows a lognormal distribution. The mean and median are approximately equal, but the histogram shows that it is right-skewed with a long tail. After a log10 transformation, the log-transformed True Color fits a normal distribution as demonstrated by the overlaid curve.
-#pH follows a normal distribution. The mean and median are close to equal, showing a symmetric distribution around a typical neutral pH of 7 that is depicted in the histogram.
+#pH follows a normal distribution. The mean and median are close to equal, showing a symmetric distribution around a typical neutral pH of 7 that is depicted in the histogram and the overlaid curve.
