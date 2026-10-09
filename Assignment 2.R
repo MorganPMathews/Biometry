@@ -92,11 +92,11 @@ tsi_color_pH |>
   ggplot(aes(x = Value, fill = Parameter)) +
   geom_histogram(na.rm = TRUE, bins = 20, color = "white", alpha = 0.8)+
 #color and labels
-  scale_fill_manual(values = c("lightgreen")) + 
-  labs(title = "Distribution of Lake Annie Trophic State Index",
+  scale_fill_manual(values = c("darkseagreen")) + 
+  labs(title = "Distribution of Trophic State Index in Lake Annie",
        subtitle = "1986-2026",
        x = "Trophic State Index (TSI)",
-       y = "Count (Frequency)") +
+       y = "Density") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
         plot.background = element_rect(fill = "white", color = NA),
@@ -126,11 +126,11 @@ ggplot(aes(x = log10(Value), fill = Parameter)) +
     linewidth = 1.2
   ) +
 #color and labels
-  scale_fill_manual(values = c("lightgreen")) + 
-  labs(title = "Log-Transformed Distribution of Lake Annie Trophic State Index",
+  scale_fill_manual(values = c("darkseagreen")) + 
+  labs(title = "Distribution of Log-Transformed Trophic State Index in Lake Annie",
        subtitle = "1986-2026",
        x = "Log10 Trophic State Index (TSI)",
-       y = "Count (Frequency)") +
+       y = "Density") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
         plot.background = element_rect(fill = "white", color = NA),
@@ -149,10 +149,10 @@ tsi_color_pH |>
   geom_histogram(na.rm = TRUE, bins = 20, color = "white", alpha = 0.8) +
 #colors and labels
   scale_fill_manual(values = c("darkblue")) + 
-  labs(title = "Distribution of Lake Annie True Color",
+  labs(title = "Distribution of True Color in Lake Annie",
        subtitle = "1986-2026",
        x = "True Color (PCU)",
-       y = "Count (Frequency)") +
+       y = "Density") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
         plot.background = element_rect(fill = "white", color = NA),
@@ -183,10 +183,10 @@ tsi_color_pH |>
   ) +
   #color and labels
   scale_fill_manual(values = c("darkblue")) + 
-  labs(title = "Log-Transformed Distribution of Lake Annie True Color",
+  labs(title = "Distribution of Log-Transformed True Color in Lake Annie",
        subtitle = "1986-2026",
        x = "Log10 True Color (PCU)",
-       y = "Count (Frequency)") +
+       y = "Density") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
         plot.background = element_rect(fill = "white", color = NA),
@@ -218,7 +218,7 @@ tsi_color_pH |>
   labs(title = "Distribution of Lake Annie pH",
        subtitle = "1986-2026",
        x = "pH",
-       y = "Count (Frequency)") +
+       y = "Density") +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white", color = NA),
         plot.background = element_rect(fill = "white", color = NA),
