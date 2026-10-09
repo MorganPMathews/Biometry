@@ -71,3 +71,4 @@ plot(tadpoles$TBL, tadpoles$Kill, xlim = c(0,40), ylim = c(0,6))
 curve(ricker(x, a = a_try, b = b_try), add = TRUE, col = "lightpink", lwd = 2)
 sum((tadpoles$Kill - ricker(tadpoles$TBL, a_try, b_try))^2)
 
+
