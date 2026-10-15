@@ -99,3 +99,5 @@ scale_fill_manual(values = c("navy", "steelblue", "lightblue")) +
   theme(legend.position = "none",
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5, color = "darkgray"))
+
+citation("tidyverse")
