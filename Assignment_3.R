@@ -174,7 +174,8 @@ reef.fit <- mle2(species_richness ~ dpois(lambda = exp(int +
 coef(reef.fit)
 AIC(reef.fit) #76092.11
 #addresses Q1 - Is the Poisson the right distribution?
-dispersion_ratio <- var(reef$species_richness, na.rm = TRUE) / mean(reef$species_richness, na.rm = TRUE) #ratio is 4.43 - negative binomial may be a better fit since ratio is >1
+dispersion_ratio <- var(reef$species_richness, na.rm = TRUE) / mean(reef$species_richness, na.rm = TRUE) 
+#ratio is 4.43 - negative binomial may be a better fit since ratio is >1
 #model 1 - Negative Binomial
 #addresses Q1 - Handles overdispersion evident from var()/mean()
 reef.nb <- mle2(
