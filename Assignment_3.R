@@ -75,7 +75,9 @@ fit_ricker <- mle2(progeny_1 ~ dnbinom(mu = R * start_females_1 *
 #compare all models with AICtab()
 AICtab(beetle.fit, fit_bh, fit_no_a12, fit_equal_a, fit_ricker,
        weights = TRUE, delta = TRUE, base = TRUE, logLik = TRUE)
-#result: The negative binomial ricker model is the best model (fit_ricker). Competition is exploitation-driven, where over-crowding causes resource depletion and the population declines at high egg counts.
+#result: The negative binomial ricker model is the best model (fit_ricker). Competition is
+#exploitation-driven, where over-crowding causes resource depletion and the population
+#declines at high egg counts.
 
 
 #1b: Do migratory hawks and eagles have longer wings for their size?-----------------------
@@ -124,7 +126,8 @@ hawk.fit.equal_var <- mle2(Wing.Length ~ dlnorm(meanlog = int + b * log(Mass),
                                              b ~ migration), # log_s is now constant
                            data = hawks)
 #model 4 - Lognormal Binary Class Model
-#addresses Q4 - Is the distinction between partial migrants and full migrants needed? (altering data/categories and creating a new binary migration column)
+#addresses Q4 - Is the distinction between partial migrants and full migrants needed?
+#(altering data/categories and creating a new binary migration column)
 hawks$migrant_vs_resident <- factor(ifelse(hawks$migration == "resident", "resident", "migrant"))
 hawk.fit.binary <- mle2(Wing.Length ~ dlnorm(meanlog = int + b * log(Mass),
                                              sdlog = exp(log_s)),
@@ -136,7 +139,10 @@ hawk.fit.binary <- mle2(Wing.Length ~ dlnorm(meanlog = int + b * log(Mass),
 #compare all models with AICtab()
 AICtab(hawk.fit, hawk.fit.no_int, hawk.fit.no_slope, hawk.fit.equal_var, hawk.fit.binary,
        weights = TRUE, delta = TRUE, base = TRUE, logLik = TRUE)
-#result: The Lognormal Binary Class Model is the best model (hawk.fit.binary). It fits best because partial and full migrants share nearly identical evolutionary adaptations for long-distance travel, making their wing-to-mass scaling biologically indistinguishable from one another. Splitting them into separate groups adds unnecessary complexity without demonstrating any distinct ecological differences in how their wings scale with body size.
+#result: The Lognormal Binary Class Model is the best model (hawk.fit.binary). It fits best
+#because partial and full migrants share nearly identical evolutionary adaptations for long #distance travel, making their wing-to-mass scaling biologically indistinguishable from one
+#another. Splitting them into separate groups adds unnecessary complexity without
+#demonstrating any distinct ecological differences in how their wings scale with body size.
 
 
 #1c: What explains how many fish species a diver records on a reef?------------------------
@@ -153,7 +159,8 @@ reef$protected <- ifelse(reef$MPA_NAME == "Unprotected", "no", "yes")
 #plot
 plot(reef$DEPTH, reef$species_richness, col = rgb(0, 0, 0, 0.1),
      xlab = "depth (m)", ylab = "species recorded")
-#starting model - richness is Poisson, its log rises and then falls with depth and also depends on visibility, year, region, and protection
+#starting model - richness is Poisson, its log rises and then falls with depth
+#depends on visibility, year, region, and protection
 reef.fit <- mle2(species_richness ~ dpois(lambda = exp(int +
                                                          d1 * depth +
                                                          d2 * depth^2 +
@@ -224,7 +231,13 @@ AICtab(reef.fit, reef.nb, reef.linear_depth, reef.no_vis, reef.no_protection,
 best_coefs <- coef(reef.nb)
 multipliers <- exp(best_coefs)
 print(round(multipliers, 4))
-#result: The Negative Binomial is the best model (reef.nb). Reef fish species richness exhibits significant overdispersion (var()/mean()), making a Poisson distribution a poor fit. Biologically, species richness on coral reefs is typically patchy with some areas of high richness and some with none. The Poisson model assumes a constant mean-variance relationship while the Negative Binomial distribution models the species richness clusters and environmental heterogeneity by accounting for high dispersion. The alternative models were poorer fits because they excluded important biological and sampling factors.
+#result: The Negative Binomial is the best model (reef.nb). Reef fish species richness
+#exhibits significant overdispersion (var()/mean()), making a Poisson distribution a poor
+#fit. Biologically, species richness on coral reefs is typically patchy with some areas of
+#high richness and some with none. The Poisson model assumes a constant mean-variance
+#relationship while the Negative Binomial distribution models the species richness clusters
+#and environmental heterogeneity by accounting for high dispersion. The alternative models
+#were poorer fits because they excluded important biological and sampling factors.
 
 
 #part 2: focal dataset model selection-----------------------------------------------------
@@ -273,32 +286,32 @@ drop_na(tsi, color, ph, year) |>
 mutate(year_c = year - min(year, na.rm = TRUE))
 
 #Response Variable 1: Trophic State Index (TSI)
-#Determine whether lake eutrophication is primarily driven by long-term time trends (Year), CDOM browning (True Color), acidity shifts (pH), or an interaction between organic matter and pH.
-#Model 1 - Baseline Intercept
+#Determine whether lake eutrophication is primarily driven by long-term time trends (Year), #CDOM browning (True Color), acidity shifts (pH), or an interaction between organic matter #and pH.
+#model 1 - Normal, Baseline Intercept
 tsi.baseline <- mle2(
   tsi ~ dnorm(mean = int, sd = exp(log_sigma)),
   start = list(int = mean(tsi_color_pH$tsi), log_sigma = log(sd(tsi_color_pH$tsi))),
   data = tsi_color_pH
 )
-#Model 2 - Temporal Trend Only
+#model 2 - Normal, Temporal Trend Only
 tsi.time <- mle2(
   tsi ~ dnorm(mean = int + b_year * year_c, sd = exp(log_sigma)),
   start = list(int = 50, b_year = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 3 - Water Quality Drivers (Color and pH)
+#model 3 - Normal, Water Quality Drivers (Color and pH)
 tsi.wq <- mle2(
   tsi ~ dnorm(mean = int + b_color * color + b_ph * ph, sd = exp(log_sigma)),
   start = list(int = 50, b_color = 0, b_ph = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 4 - Full Additive Model (Time, Color, and pH)
+#model 4 - Normal, Full Additive Model (Time, Color, and pH)
 tsi.full <- mle2(
   tsi ~ dnorm(mean = int + b_year * year_c + b_color * color + b_ph * ph, sd = exp(log_sigma)),
   start = list(int = 50, b_year = 0, b_color = 0, b_ph = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 5 - Interaction Model (Time + Color * pH)
+#model 5 - Normal, Interaction Model (Time + Color * pH)
 tsi.inter <- mle2(
   tsi ~ dnorm(mean = int + b_year * year_c + b_color * color + b_ph * ph + b_cxp * (color * ph), sd = exp(log_sigma)),
   start = list(int = 50, b_year = 0, b_color = 0, b_ph = 0, b_cxp = 0, log_sigma = 2),
@@ -306,23 +319,30 @@ tsi.inter <- mle2(
 )
 #compare models
 AICtab(tsi.baseline, tsi.time, tsi.wq, tsi.full, tsi.inter, weights = TRUE, base = TRUE)
-#result: The best model for Trophic State Index is the normal full additive model that includes time, color, and pH (tsi.full). As documented by Gaiser et al. (2009), CDOM accounts for over 83% of transparency fluctuations in Lake Annie. CDOM consists of organic humic acids that darken the water column while also altering lake acidity. Including both color and ph allows the model to show how humic inputs dictate whether Lake Annie enters a dystrophic (browned/humic), eutrophic (nutrient-rich), or mixotrophic state. The other models ignore how CDOM loading fluctuates between wet and dry years due to natural climate oscillations, as well as how the catchment has changed over time.
+#result: The best model for Trophic State Index is the normal full additive model that
+#includes time, color, and pH (tsi.full). As documented by Gaiser et al. (2009), CDOM
+#accounts for over 83% of transparency fluctuations in Lake Annie. CDOM consists of organic
+#humic acids that darken the water column while also altering lake acidity. Including both
+#color and ph allows the model to show how humic inputs dictate whether Lake Annie enters a
+#dystrophic, eutrophic, or mixotrophic state. The other models ignore how CDOM loading
+#fluctuates between wet and dry years due to natural climate oscillations, as well as how
+#the catchment has changed over time.
 
 #Response Variable 2: True Color (Browning / CDOM)
 #Predict terrestrial organic matter inputs over time and acidity.
-#Model 1 - Linear Time
+#model 1 - Normal, Linear Time
 color.linear <- mle2(
   color ~ dnorm(mean = int + b_year * year_c, sd = exp(log_sigma)),
   start = list(int = mean(tsi_color_pH$color), b_year = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 2 - Quadratic Time
+#model 2 - Nomral, Quadratic Time
 color.quad <- mle2(
   color ~ dnorm(mean = int + b_year1 * year_c + b_year2 * (year_c^2), sd = exp(log_sigma)),
   start = list(int = mean(tsi_color_pH$color), b_year1 = 0, b_year2 = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 3 - Time and Acidity
+#Model 3 - Normal, Time and Acidity
 color.ph <- mle2(
   color ~ dnorm(mean = int + b_year * year_c + b_ph * ph, sd = exp(log_sigma)),
   start = list(int = mean(tsi_color_pH$color), b_year = 0, b_ph = 0, log_sigma = 2),
@@ -330,4 +350,8 @@ color.ph <- mle2(
 )
 #compare models
 AICtab(color.linear, color.quad, color.ph, weights = TRUE, base = TRUE)
-#result: The best model for True Color is the normal quadratic time model (color.quad). As shown by Emery Boeck et al. (2023), Lake Annie's browning began following watershed catchment expansion, but shifts in color are driven by natural climate oscillations that affect rainfall. This model shows these changes in terrestrial humic runoff better than a linear trend.
+#result: The best model for True Color is the normal quadratic time model (color.quad). As
+#shown by Emery Boeck et al. (2023), Lake Annie's browning began following watershed
+#catchment expansion, but shifts in color are driven by natural climate oscillations that
+#affect rainfall. This model shows these changes in terrestrial humic runoff better than a
+#linear trend.
