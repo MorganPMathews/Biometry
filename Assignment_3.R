@@ -346,7 +346,7 @@ color.quad <- mle2(
   start = list(int = mean(tsi_color_pH$color), b_year1 = 0, b_year2 = 0, log_sigma = 2),
   data = tsi_color_pH
 )
-#Model 3 - Normal, Time and Acidity
+#model 3 - Normal, Time and Acidity
 color.ph <- mle2(
   color ~ dnorm(mean = int + b_year * year_c + b_ph * ph, sd = exp(log_sigma)),
   start = list(int = mean(tsi_color_pH$color), b_year = 0, b_ph = 0, log_sigma = 2),
