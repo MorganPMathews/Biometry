@@ -140,7 +140,8 @@ hawk.fit.binary <- mle2(Wing.Length ~ dlnorm(meanlog = int + b * log(Mass),
 AICtab(hawk.fit, hawk.fit.no_int, hawk.fit.no_slope, hawk.fit.equal_var, hawk.fit.binary,
        weights = TRUE, delta = TRUE, base = TRUE, logLik = TRUE)
 #result: The Lognormal Binary Class Model is the best model (hawk.fit.binary). It fits best
-#because partial and full migrants share nearly identical evolutionary adaptations for long #distance travel, making their wing-to-mass scaling biologically indistinguishable from one
+#because partial and full migrants share nearly identical evolutionary adaptations for long
+#distance travel, making their wing-to-mass scaling biologically indistinguishable from one
 #another. Splitting them into separate groups adds unnecessary complexity without
 #demonstrating any distinct ecological differences in how their wings scale with body size.
 
@@ -286,7 +287,9 @@ drop_na(tsi, color, ph, year) |>
 mutate(year_c = year - min(year, na.rm = TRUE))
 
 #Response Variable 1: Trophic State Index (TSI)
-#Determine whether lake eutrophication is primarily driven by long-term time trends (Year), #CDOM browning (True Color), acidity shifts (pH), or an interaction between organic matter #and pH.
+#Determine whether lake eutrophication is primarily driven by long-term time trends (Year),
+#CDOM browning (True Color), acidity shifts (pH), or an interaction between organic matter
+#and pH.
 #model 1 - Normal, Baseline Intercept
 tsi.baseline <- mle2(
   tsi ~ dnorm(mean = int, sd = exp(log_sigma)),
