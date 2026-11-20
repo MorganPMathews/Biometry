@@ -112,7 +112,8 @@ summary(tsi.time)
 #This could indicate that long-term changes such as lake catchment size, human influences
 #on hydrology and the broader landscape (groundwater withdrawals, channelization, land
 #development, soil changes, nutrient inputs etc.), and temperature and rainfall
-#(potentially related to climate change) may have a larger effect on a lake's trophic state #index than other water quality metrics.
+#(potentially related to climate change) may have a larger effect on a lake's trophic state
+#index than other water quality metrics.
 
 #By calculating summary statistics with summary(tsi.time), the time model indicates a
 #statistically significant (p < 0.001) long-term decline in lake TSI over the study period.
