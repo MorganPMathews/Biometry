@@ -30,7 +30,8 @@ tsi_color_pH <- lakeannie |>
          Year,
          Characteristic, 
          ResultValue) |> 
-  #pivot characteristics into columns - if a characteristic has multiple result values for   #the same row, average them together
+  #pivot characteristics into columns - if a characteristic has multiple result values for
+  #the same row, average them together
   pivot_wider(names_from = Characteristic,
               values_from = ResultValue,
               values_fn = mean) |>
