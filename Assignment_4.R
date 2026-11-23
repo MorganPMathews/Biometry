@@ -109,6 +109,9 @@ summary(tsi.full)
 
 #tsi.time_ph assumes TSI changes linearly over time while responding to lake pH shifts.
 
+#tsi.inter assumes TSI changes linearly over time while responding to an interaction
+#between water color and lake pH.
+
 #biological meaning of models --------------------------------------------
 
 #The model with time and pH (tsi.time_ph) carries over 50% of the total model weight,
