@@ -268,7 +268,7 @@ ggplot() +
     legend.spacing.y   = unit(0.1, "cm")
   )
 
-#tsi.time Model Fit with 95% Confidence and Prediction -------------------
+#tsi.time model fit with 95% confidence and prediction -------------------
 
 #create prediction grid for tsi.time model:
 new_data <- data.frame(
@@ -354,7 +354,7 @@ ggplot() +
     legend.spacing.y   = unit(0.1, "cm")
   )
 
-#tsi.full Model Fit with 95% Confidence and Prediction -------------------
+#tsi.full model fit with 95% confidence and prediction -------------------
 
 #create prediction grid for tsi.full model:
 new_data <- data.frame(
@@ -446,7 +446,7 @@ ggplot() +
     legend.spacing.y   = unit(0.1, "cm")
   )
 
-#Plot Interpretations ----------------------------------------------------
+#plot interpretations ----------------------------------------------------
 
 #The prediction plot with 95% confidence bands confirms the fit and assumptions of both
 #the time and pH model (tsi.time_ph) and the simple temporal trend model (tsi.time). All
